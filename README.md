@@ -1,4 +1,5 @@
-# Adobe PDF Document Structure Classifier
+# Connecting the Dots...
+## Adobe PDF Document Structure Classifier
 
 This project intelligently detects document structure from PDF files using classical ML and NLP-based feature extraction. It classifies text blocks into structural labels like `Title`, `H1`, `H2`, `H3`, and `Paragraph`.
 

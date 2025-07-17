@@ -23,6 +23,7 @@ Built for the Adobe India Hackathon, the pipeline is designed to run fully offli
 
 adobe-pdf-structure-ai/
 ├── samples/             # Sample PDFs and labeled JSONs
+├── test/             # Test PDFs for testing the model predictions
 ├── heading_classifier.pkl
 ├── feature_extractor.py     # Extracts layout + linguistic features
 ├── json_generator.py        # CLI entrypoint: training + prediction
@@ -50,38 +51,30 @@ Required packages:
 * `lightgbm`
 * `nltk`
 * `joblib`
-
-### 🐳 Build Docker image (optional)
-
-```bash
-docker build -t adobe-doc-structure .
-```
-
 ---
 
-## 🧪 How to Use
+## How to Use?
 
 ### 🔧 Training the Model
 
 Train using `.pdf` and `.json` pairs stored in the same folder (`samples/`):
 
 ```bash
-python src/json_generator.py --mode train --input samples --output samples --model models/heading_classifier.pkl
+python src/json_generator.py --mode train --input samples --output samples --model heading_classifier.pkl
 ```
 
 * Each `.pdf` should have a corresponding `.json` with the same name (e.g., `sample1.pdf` and `sample1.json`)
-* Trained model will be saved to `models/heading_classifier.pkl`
+* Trained model will be saved to `heading_classifier.pkl`
 
 ---
 
-### 🧠 Predicting Structure of New PDFs
+### Predicting Structure of New PDFs
 
 ```bash
-python src/json_generator.py --mode predict --input samples --output samples --model models/heading_classifier.pkl
+python src/json_generator.py --mode predict --input test --output test --model heading_classifier.pkl
 ```
 
-* Outputs will be saved as `.json` in the output directory (same structure as Adobe expects)
-
+* Outputs will be saved as `.json` in the output directory
 ---
 
 ## 🗃️ JSON Output Format
@@ -99,7 +92,7 @@ python src/json_generator.py --mode predict --input samples --output samples --m
 
 ---
 
-## 📈 Current Limitations
+## Current Limitations
 
 * The model is currently trained on limited examples (initial version)
 * Low support for edge cases (e.g., overlapping headings, noisy formatting)

@@ -1,0 +1,146 @@
+{
+    "title": "Complex Systems Modeling for Humanitarian Action: Methods and Opportunities",
+    "outline": [
+        {
+            "level": "H1",
+            "text": "Table of Contents",
+            "page": 1
+        },{
+            "level": "H1",
+            "text": "Acknowledgements",
+            "page": 1
+        },{
+            "level": "H1",
+            "text": "Executive Summary",
+            "page": 2
+        },{
+            "level": "H1",
+            "text": "I. What is a complex system?",
+            "page": 4
+        },{
+            "level": "H1",
+            "text": "II. Why use complex systems modeling in the humanitarian sector?",
+            "page": 5
+        },{
+            "level": "H1",
+            "text": "III. When is complex systems modeling feasible, viable and desirable in humanitarian settings?",
+            "page": 6
+        },{
+            "level": "H2",
+            "text": "Figure 1. Criteria for determining the feasibility, viability and desirability of complex systems modeling in humanitarian settings",
+            "page": 6
+        },{
+            "level": "H2",
+            "text": "Feasibility criteria",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Clear goals and outputs: ",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Clear target geographic area: ",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Existence of previous models and/or literature: ",
+            "page": 7
+        },{
+            "level": "H2",
+            "text": "Viability criteria",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Data availability: ",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Synergy with domain experts and actors in the field: ",
+            "page": 7
+        },{
+            "level": "H2",
+            "text": "Desirability criteria",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Complexity of the problem space: ",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Ability to inform response activities",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Potential impact",
+            "page": 8
+        },{
+            "level": "H1",
+            "text": "IV. How is a complex systems model developed?",
+            "page": 9
+        },{
+            "level": "H2",
+            "text": "Figure 2. Selected methods for complex systems modeling",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "Network/graph models: ",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "Agent-based modeling: ",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "System Dynamics",
+            "page": 10
+        },{
+            "level": "H2",
+            "text": "Step 1: Problem identification and system conceptualization",
+            "page": 10
+        },{
+            "level": "H2",
+            "text": "Step 2: Model formulation and analysis",
+            "page": 11
+        },{
+            "level": "H2",
+            "text": "Step 3: Model validation",
+            "page": 11
+        },{
+            "level": "H2",
+            "text": "Step 4: Policy analysis and implementation",
+            "page": 11
+        },{
+            "level": "H2",
+            "text": "Figure 3. Examples of System Dynamics models",
+            "page": 12
+        },{
+            "level": "H1",
+            "text": "V. What's next for complex systems modeling?",
+            "page": 13
+        },{
+            "level": "H1",
+            "text": "References",
+            "page": 15
+        },{
+            "level": "H2",
+            "text": "Humanitarian needs assessment",
+            "page": 15
+        },{
+            "level": "H2",
+            "text": "General Resources on Complex Systems and Complex Systems modeling methods",
+            "page": 15
+        },{
+            "level": "H2",
+            "text": "Complex systems modeling in the humanitarian sector",
+            "page": 15
+        },{
+            "level": "H2",
+            "text": "Previous years reports",
+            "page": 16
+        },{
+            "level": "H2",
+            "text": "Some useful resources for the Cholera Response Simulator pilot",
+            "page": 16
+        }
+    ]
+}

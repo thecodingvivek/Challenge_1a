@@ -13,7 +13,7 @@ project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_file_path
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from json_generator import AdvancedHeadingClassifier
+from src.json_generator import AdvancedHeadingClassifier
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

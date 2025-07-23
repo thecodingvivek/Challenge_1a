@@ -23,8 +23,8 @@ project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_file_path
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 # Import our components
-from src.enhanced_json_generator import EnhancedJSONGenerator
-from src.enhanced_feature_extractor import EnhancedPDFFeatureExtractor
+from src.json_generator import EnhancedJSONGenerator
+from src.feature_extractor import EnhancedPDFFeatureExtractor
 from src.advanced_contextual_analyzer import AdvancedContextualAnalyzer
 from src.performance_optimizer import PerformanceOptimizer, FastPDFProcessor
 

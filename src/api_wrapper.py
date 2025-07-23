@@ -16,8 +16,8 @@ import shutil
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Import our components
-from .enhanced_json_generator import EnhancedJSONGenerator
-from .enhanced_feature_extractor import EnhancedPDFFeatureExtractor
+from .json_generator import EnhancedJSONGenerator
+from .feature_extractor import EnhancedPDFFeatureExtractor
 from .advanced_contextual_analyzer import AdvancedContextualAnalyzer
 from .performance_optimizer import PerformanceOptimizer, FastPDFProcessor
 from .monitoring_system import PerformanceMonitor, EnhancedLogger, get_global_monitor

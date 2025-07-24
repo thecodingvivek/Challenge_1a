@@ -11,15 +11,15 @@ project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_file_path
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from src.feature_extractor import EnhancedPDFFeatureExtractor
+from src.feature_extractor import HybridPDFFeatureExtractor
 
 def extract_features_for_training():
     """Extract features from all training data"""
     
-    extractor = EnhancedPDFFeatureExtractor()
+    extractor = HybridPDFFeatureExtractor()
     
     # Process each split
-    for split in ['training','validation','test']:
+    for split in ['training']:
         print(f"Processing {split} split...")
         
         pdf_dir = f"data/raw_pdfs/{split}"

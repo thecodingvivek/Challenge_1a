@@ -23,8 +23,8 @@ project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_file_path
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 # Import our components
-from src.json_generator import EnhancedJSONGenerator
-from src.feature_extractor import EnhancedPDFFeatureExtractor
+from src.json_generator import HybridHeadingClassifier
+from src.feature_extractor import HybridPDFFeatureExtractor
 from src.advanced_contextual_analyzer import AdvancedContextualAnalyzer
 from src.performance_optimizer import PerformanceOptimizer, FastPDFProcessor
 
@@ -55,16 +55,10 @@ class ComprehensiveEvaluator:
         
         # Initialize components
         try:
-            # ML-based system
-            ml_generator = EnhancedJSONGenerator()
-            
-            # Heuristic-based system
-            feature_extractor = EnhancedPDFFeatureExtractor()
+            # Initialize hybrid system components
+            ml_generator = HybridHeadingClassifier()
+            feature_extractor = HybridPDFFeatureExtractor()
             contextual_analyzer = AdvancedContextualAnalyzer()
-            
-            # Performance optimizer
-            performance_optimizer = PerformanceOptimizer()
-            fast_processor = FastPDFProcessor()
             
             # Find test files
             test_files = self._find_test_files(test_pdfs_dir, expected_outputs_dir)
@@ -75,11 +69,9 @@ class ComprehensiveEvaluator:
             
             logger.info(f"Found {len(test_files)} test files")
             
-            # Run comprehensive tests
+            # Run comprehensive tests with single hybrid system
             results = {
-                'ml_system': self._test_ml_system(test_files, ml_generator),
-                'heuristic_system': self._test_heuristic_system(test_files, feature_extractor, contextual_analyzer),
-                'fast_system': self._test_fast_system(test_files, fast_processor),
+                'hybrid_system': self._test_hybrid_system(test_files, ml_generator, feature_extractor, contextual_analyzer),
                 'performance_analysis': self._analyze_performance(test_files),
                 'document_type_analysis': self._analyze_by_document_type(test_files),
                 'summary': self._generate_summary()
@@ -132,7 +124,143 @@ class ComprehensiveEvaluator:
         
         return 'unknown'
     
-    def _test_ml_system(self, test_files: List[Dict[str, Any]], generator: EnhancedJSONGenerator) -> Dict[str, Any]:
+    def _test_hybrid_system(self, test_files: List[Dict[str, Any]], 
+                           ml_generator: HybridHeadingClassifier,
+                           feature_extractor: HybridPDFFeatureExtractor,
+                           contextual_analyzer: AdvancedContextualAnalyzer) -> Dict[str, Any]:
+        """Test unified hybrid system that intelligently combines ML and heuristic approaches"""
+        
+        logger.info("Testing unified hybrid system...")
+        
+        results = {
+            'total_files': len(test_files),
+            'successful_processes': 0,
+            'failed_processes': 0,
+            'processing_times': [],
+            'accuracy_metrics': {},
+            'detailed_results': []
+        }
+        
+        for test_file in test_files:
+            try:
+                start_time = time.time()
+                
+                try:
+                    # Use the ML generator's process_pdf which already includes hybrid logic
+                    output = ml_generator.process_pdf(test_file['pdf_path'])
+                    processing_time = time.time() - start_time
+                    
+                    # Enhance with additional heuristic analysis if confidence is low
+                    self._enhance_with_heuristics(output, test_file['pdf_path'], feature_extractor, contextual_analyzer)
+                    
+                    results['successful_processes'] += 1
+                    results['processing_times'].append(processing_time)
+                    
+                    # Calculate accuracy if expected output available
+                    if test_file['expected_output']:
+                        accuracy = self._calculate_accuracy(output, test_file['expected_output'])
+                        results['detailed_results'].append({
+                            'file': test_file['name'],
+                            'processing_time': processing_time,
+                            'accuracy': accuracy,
+                            'output': output,
+                            'method': 'hybrid_ml_heuristic'
+                        })
+                    else:
+                        results['detailed_results'].append({
+                            'file': test_file['name'],
+                            'processing_time': processing_time,
+                            'output': output,
+                            'method': 'hybrid_ml_heuristic'
+                        })
+                    
+                except Exception as e:
+                    logger.error(f"Hybrid system failed on {test_file['name']}: {e}")
+                    results['failed_processes'] += 1
+                    results['detailed_results'].append({
+                        'file': test_file['name'],
+                        'error': str(e)
+                    })
+                
+            except Exception as e:
+                logger.error(f"Error testing hybrid system on {test_file['name']}: {e}")
+                results['failed_processes'] += 1
+        
+        # Calculate summary metrics
+        if results['processing_times']:
+            results['avg_processing_time'] = np.mean(results['processing_times'])
+            results['max_processing_time'] = max(results['processing_times'])
+            results['files_exceeding_10s'] = sum(1 for t in results['processing_times'] if t > 10)
+        
+        return results
+    
+    def _enhance_with_heuristics(self, output: Dict[str, Any], pdf_path: str,
+                                feature_extractor: HybridPDFFeatureExtractor,
+                                contextual_analyzer: AdvancedContextualAnalyzer):
+        """Enhance ML output with additional heuristic analysis if needed"""
+        
+        # Check if we have low confidence or missing elements
+        outline = output.get('outline', [])
+        title = output.get('title', '')
+        
+        low_confidence_items = [item for item in outline if item.get('confidence', 0) < 0.5]
+        
+        # If we have low confidence items or missing title, enhance with heuristics
+        if low_confidence_items or not title:
+            try:
+                # Get additional heuristic analysis
+                blocks = feature_extractor.process_pdf(pdf_path)
+                if blocks:
+                    context = contextual_analyzer.analyze_document_context(blocks)
+                    blocks = contextual_analyzer.enhance_heading_detection(blocks, context)
+                    
+                    # If title is missing or low quality, try to find a better one
+                    if not title or len(title.strip()) < 5:
+                        for block in blocks:
+                            if (block.get('heuristic_title_score', 0) > 12 and 
+                                block.get('page', 1) == 1):
+                                # Extract clean title
+                                import re
+                                title_text = block['text'].strip()
+                                
+                                # Look for meaningful title patterns
+                                # Try to find the main title (often the longest meaningful part)
+                                sentences = title_text.split('.')
+                                best_title = ""
+                                
+                                for sentence in sentences:
+                                    sentence = sentence.strip()
+                                    # Check if this looks like a good title
+                                    if (len(sentence) > 10 and len(sentence) < 100 and
+                                        not sentence.lower().startswith(('page', 'figure', 'table')) and
+                                        not re.match(r'^\d+[\s\/\-]\d+', sentence)):
+                                        if len(sentence) > len(best_title):
+                                            best_title = sentence
+                                
+                                if best_title:
+                                    output['title'] = best_title
+                                    break
+                                else:
+                                    # Fallback to uppercase extraction
+                                    uppercase_matches = re.findall(r'[A-Z][A-Z\s]{10,}[A-Z]', title_text)
+                                    if uppercase_matches:
+                                        output['title'] = max(uppercase_matches, key=len).strip()
+                                        break
+                    
+                    # Add additional processing info
+                    if 'processing_info' not in output:
+                        output['processing_info'] = {}
+                    output['processing_info']['enhanced_with_heuristics'] = True
+                    output['processing_info']['heuristic_context'] = {
+                        'document_type': context.document_type,
+                        'structure_complexity': context.structure_complexity,
+                        'language': context.language
+                    }
+                    
+            except Exception as e:
+                logger.warning(f"Could not enhance with heuristics: {e}")
+    
+    def _test_ml_system(self, test_files: List[Dict[str, Any]], generator: HybridHeadingClassifier) -> Dict[str, Any]:
         """Test ML-based system"""
         
         logger.info("Testing ML-based system...")
@@ -195,7 +323,7 @@ class ComprehensiveEvaluator:
         return results
     
     def _test_heuristic_system(self, test_files: List[Dict[str, Any]], 
-                              feature_extractor: EnhancedPDFFeatureExtractor,
+                              feature_extractor: HybridPDFFeatureExtractor,
                               contextual_analyzer: AdvancedContextualAnalyzer) -> Dict[str, Any]:
         """Test heuristic-based system"""
         

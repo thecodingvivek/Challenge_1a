@@ -1,0 +1,102 @@
+{
+    "title": "A Tabu Search and Genetic Algorithm for traffic light scheduling",
+    "outline": [
+        {
+            "level": "H1",
+            "text": "Abstract-",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "Index Terms",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "Ⅰ. INTRODUCTION",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "ⅠⅠ. LITERATURE REVIEW",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "ⅠⅠⅠ. METHODOLOGY",
+            "page": 1
+        },{
+            "level": "H2",
+            "text": "A. Road Nework design",
+            "page": 1
+        },{
+            "level": "H2",
+            "text": "B. Assumptions",
+            "page": 1
+        },{
+            "level": "H2",
+            "text": "C. Conflict tables",
+            "page": 1
+        },{
+            "level": "H1",
+            "text": "ⅠⅤ. GA FOR TRAFFIC LIGHT SCHEDULING",
+            "page": 1
+        },{
+            "level": "H2",
+            "text": "A. The Genetic algorithm",
+            "page": 1
+        },{
+            "level": "H3",
+            "text": "Algorithm 1: GA pseudo-code",
+            "page": 1
+        },{
+            "level": "H2",
+            "text": "B. Genetic representation of the solution",
+            "page": 2
+        },{
+            "level": "H2",
+            "text": "C. Fitness function",
+            "page": 2
+        },{
+            "level": "H1",
+            "text": "Ⅴ. TSA FOR TRAFFIC LIGHT SCHEDULING",
+            "page": 2
+        },{
+            "level": "H2",
+            "text": "A. The tabu search algorithm",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "Algorithm 2: TSA pseudo-code",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "B. Tabu list",
+            "page": 3
+        },{
+            "level": "H1",
+            "text": "ⅤⅠ. SIMULATION",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "A. Environment and methodology",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "B. Parameters",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "C. Results and discussion",
+            "page": 4
+        },{
+            "level": "H3",
+            "text": "TABLE ⅠⅠⅠ.",
+            "page": 4
+        },{
+            "level": "H1",
+            "text": "ⅤⅠⅠ. CONCLUSION",
+            "page": 5
+        },{
+            "level": "H1",
+            "text": "REFERENCES",
+            "page": 5
+        }
+    ]
+}

@@ -1,0 +1,342 @@
+{
+    "title": "Course 4 resources and citations",
+    "outline": [
+        {
+            "level": "H1",
+            "text": "Module 1:Introduction to the power of storytelling:How to visualize data in the cloud",
+            "page": 0
+        },{
+            "level": "H2",
+            "text": "Resources",
+            "page": 0
+        },{
+            "level": "H3",
+            "text": "Helpful resources and tips",
+            "page": 0
+        },{
+            "level": "H3",
+            "text": "Why visualization matters",
+            "page": 0
+        },{
+            "level": "H3",
+            "text": "Foundational concepts of design: Structure and aesthetics",
+            "page": 0
+        },{
+            "level": "H3",
+            "text": "Foundational concepts of design: Usability and accessibility",
+            "page": 0
+        },{
+            "level": "H2",
+            "text": "Citations",
+            "page": 1
+        },{
+            "level": "H3",
+            "text": "Why visualization matters",
+            "page": 1
+        },{
+            "level": "H3",
+            "text": "Ways that cloud data enhances storytelling",
+            "page": 1
+        },{
+            "level": "H3",
+            "text": "Planning phases of the data visualization workflow",
+            "page": 1
+        },{
+            "level": "H3",
+            "text": "Dashboard design for effective communication",
+            "page": 1
+        },{
+            "level": "H3",
+            "text": "The importance of UX/UI design",
+            "page": 1
+        },{
+            "level": "H3",
+            "text": "Design decisions for data visualizations",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "Foundational concepts of design: Structure and aesthetics",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "Foundational concepts of design: Usability and accessibility",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "Additional design concepts to consider",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "Design principles and strategies for dashboards",
+            "page": 2
+        },{
+            "level": "H1",
+            "text": "Module 2: Methods for visualization planning and design",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "Resources",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "Visualization techniques for different data types",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "Choose an effective visualization",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "[Supplemental] Tips for effective teamwork",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "The importance of the user journey",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "Citations",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "Data types to consider for visualizations",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "The importance of data type identification",
+            "page": 4
+        },{
+            "level": "H3",
+            "text": "Visualization techniques for different data types",
+            "page": 4
+        },{
+            "level": "H3",
+            "text": "Choose an effective visualization",
+            "page": 4
+        },{
+            "level": "H3",
+            "text": "Introduction to business intelligence dashboards",
+            "page": 4
+        },{
+            "level": "H3",
+            "text": "4 types of business intelligence dashboards",
+            "page": 4
+        },{
+            "level": "H3",
+            "text": "Benefits of scorecards",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "SMART questions for stakeholders",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Strategies for translating stakeholder requests",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Introduction to wireframes for stakeholder alignment",
+            "page": 5
+        },{
+            "level": "H1",
+            "text": "Module 3: Access, explore, and report on data in the cloud",
+            "page": 6
+        },{
+            "level": "H2",
+            "text": "Resources",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Cloud-based tools for accessing and visualizing data",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Actionable insights through data exploration",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Customize dimensions and measures in Looker studio",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Case study: Benefits of using data reports",
+            "page": 6
+        },{
+            "level": "H2",
+            "text": "Citations",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "The data journey: Analyze and activate",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Considerations for connecting to cloud data",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "The importance of data exploration",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Actionable insights through data exploration",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Dimensions and measures in data models",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Customize dimensions and measures in Looker studio",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Basics of modeling data",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Aggregate and filter to summarize data",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Data blending for helpful insights",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Introduction to data reports",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Guide to Looker Studio",
+            "page": 8
+        },{
+            "level": "H1",
+            "text": "Module 4: Enterprise bussiness analytics",
+            "page": 9
+        },{
+            "level": "H2",
+            "text": "Resources",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "Data governance for safeguarding data",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "Insights from a single dataset",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "Guide to Looker Enterprise",
+            "page": 9
+        },{
+            "level": "H2",
+            "text": "Citations",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "Introduction to enterprise-grade visualization tools",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "Data governance for safeguarding data",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "Comparison of self-service and guided analytics",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "Visualization tools for enterprise data exploration",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "The process of filtering data",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "Data drilling up, down, and through",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "Live dashboard features",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "Guide to Looker Enterprise",
+            "page": 11
+        },{
+            "level": "H3",
+            "text": "The changing role of a cloud data analyst",
+            "page": 11
+        },{
+            "level": "H1",
+            "text": "Module 5: Explore the developer environment",
+            "page": 11
+        },{
+            "level": "H2",
+            "text": "Resources",
+            "page": 11
+        },{
+            "level": "H3",
+            "text": "Guide to LookML",
+            "page": 11
+        },{
+            "level": "H3",
+            "text": "Explore a dashboard file's LookML code",
+            "page": 11
+        },{
+            "level": "H3",
+            "text": "Interview tip: End responses with positive takeaways",
+            "page": 11
+        },{
+            "level": "H2",
+            "text": "Citations",
+            "page": 12
+        },{
+            "level": "H3",
+            "text": "Bring data tools together with an IDE",
+            "page": 12
+        },{
+            "level": "H3",
+            "text": "The elements of LookML",
+            "page": 12
+        },{
+            "level": "H3",
+            "text": "The benefits of using version control",
+            "page": 12
+        },{
+            "level": "H3",
+            "text": "Introduction to data modeling languages",
+            "page": 12
+        },{
+            "level": "H3",
+            "text": "Define dimensions and measure with LookML",
+            "page": 12
+        },{
+            "level": "H3",
+            "text": "Guide to LookML",
+            "page": 13
+        },{
+            "level": "H3",
+            "text": "Data modeling languages for business needs",
+            "page": 13
+        },{
+            "level": "H3",
+            "text": "Discover dashboards as code",
+            "page": 13
+        },{
+            "level": "H3",
+            "text": "Explore a dashboard file's LookML code",
+            "page": 13
+        },{
+            "level": "H3",
+            "text": "Derived tables for complex data problems",
+            "page": 13
+        },{
+            "level": "H3",
+            "text": "Improve performance with caching",
+            "page": 13
+        }
+    ]
+}

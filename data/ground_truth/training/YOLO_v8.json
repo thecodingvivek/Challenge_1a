@@ -1,0 +1,78 @@
+{
+    "title": "Optimizing Traffic Light Control using YOLOv8 for Real-Time Vehicle Detection and Traffic Density",
+    "outline": [
+        {
+            "level": "H1",
+            "text": "Abstract-",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "Index Terms-",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "Ⅰ. INTRODUCTION",
+            "page": 0
+        },{
+            "level": "H2",
+            "text": "TABLE Ⅰ: Cost, Delay, and Fuel Consumption Analysis Across Various Population Groups Affected by Congestion",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "ⅠⅠ. METHOD",
+            "page": 1
+        },{
+            "level": "H2",
+            "text": "A. Yolov8 Model",
+            "page": 1
+        },{
+            "level": "H2",
+            "text": "B. Traffic Light Control",
+            "page": 1
+        },{
+            "level": "H3",
+            "text": "TABLE ⅠⅠ: Vehicle Specifications",
+            "page": 1
+        },{
+            "level": "H1",
+            "text": "ⅠⅠⅠ. EXPERIMENTAL RESULT",
+            "page": 2
+        },{
+            "level": "H2",
+            "text": "A. Dataset",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "TABLE ⅠⅠⅠ: The timing of traffic lights is based on vehicle density on the road.",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "TABLE ⅠⅤ: Number of images in the dataset",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "B. Evaluation Metrics",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "C. Vehicle Detection Results",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "TABLE Ⅴ: Detection performance metrics",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "D. Simulation Results",
+            "page": 3
+        },{
+            "level": "H1",
+            "text": "ⅠⅤ. CONCLUSION",
+            "page": 3
+        },{
+            "level": "H1",
+            "text": "REFERENCES",
+            "page": 5
+        }
+    ]
+}

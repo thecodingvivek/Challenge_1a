@@ -1,0 +1,78 @@
+{
+    "title": "On Tuning the Particle Swarm Optimization for Solving the Traffic Light Problem",
+    "outline": [
+        {
+            "level": "H1",
+            "text": "Abstract",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "Keywords",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "1 Introduction",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "2 Related Work",
+            "page": 1
+        },{
+            "level": "H1",
+            "text": "3 The Traffic Light Problem",
+            "page": 2
+        },{
+            "level": "H1",
+            "text": "4 Methodology",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "4.1 Particle Swarm Optimization",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "Algorithm 1 Pseudocode of PSO",
+            "page": 4
+        },{
+            "level": "H2",
+            "text": "4.2 Simulation of Urban MObility",
+            "page": 0
+        },{
+            "level": "H2",
+            "text": "4.3 Simulation-Optimization Strategy",
+            "page": 5
+        },{
+            "level": "H1",
+            "text": "5 Simulation-Optimization Results",
+            "page": 5
+        },{
+            "level": "H2",
+            "text": "5.1 SUMO Input Configuration",
+            "page": 6
+        },{
+            "level": "H2",
+            "text": "5.2 PSO Implementation Details",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Table 1. PSO parameters for the different experiments",
+            "page": 7
+        },{
+            "level": "H2",
+            "text": "5.3 Results and Discussion",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Table 2. Simulation-optimization results.",
+            "page": 7
+        },{
+            "level": "H1",
+            "text": "6 Conclusions and Future Work",
+            "page": 10
+        },{
+            "level": "H1",
+            "text": "References",
+            "page": 11
+        }
+    ]
+}

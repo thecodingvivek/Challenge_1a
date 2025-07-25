@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 PDF Structure Detection System - Main Runner
-High-accuracy system with 49.73% ground truth accuracy (target: 90%)
 """
 
 import os

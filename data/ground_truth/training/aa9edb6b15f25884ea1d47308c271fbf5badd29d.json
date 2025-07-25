@@ -1,0 +1,23 @@
+{
+    "title": "HDX Humanitarian Data Exchange",
+    "outline": [
+        {
+            "level": "H1",
+            "text": "The Humanitarian Data Exchange",
+            "page": 0
+        },{
+            "level": "H2",
+            "text": "Find, share and use humanitarian data all in one place",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "The Humanitarian Exchange Language",
+            "page": 0
+        },{
+            "level": "H2",
+            "text": "A simple standard for messy data",
+            "page": 0
+        }
+
+    ]
+}

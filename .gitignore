@@ -4,6 +4,6 @@ __pycache__/
 *.pyc
 .env
 .DS_Store
-data
-models
 results
+.vscode
+.venv

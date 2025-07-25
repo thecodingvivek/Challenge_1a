@@ -1,0 +1,94 @@
+{
+    "title": "A Hybrid Fuzzy Genetic Algorithm for an Adaptive Traffic Signal System",
+    "outline": [
+        {
+            "level": "H1",
+            "text": "1. Introduction",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "2. State of the Art",
+            "page": 1
+        },{
+            "level": "H1",
+            "text": "3. Prelimnary Concepts",
+            "page": 1
+        },{
+            "level": "H2",
+            "text": "3.1. Genetic Algorithms",
+            "page": 1
+        },{
+            "level": "H2",
+            "text": "3.2. Fuzzy Logic Controller",
+            "page": 2
+        },{
+            "level": "H1",
+            "text": "4. Algorithm Architecture and Modelling",
+            "page": 2
+        },{
+            "level": "H2",
+            "text": "4.1. System Design and Notations",
+            "page": 2
+        },{
+            "level": "H2",
+            "text": "4.2. Fuzzy Logic Rules",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "4.3. Traditional Logic Method",
+            "page": 5
+        },{
+            "level": "H2",
+            "text": "4.4. Genetic Algorithms",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Codification of a Chromosome",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Initial Population",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Evaluation of a Chromosome",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Selection of Mating Pool",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Crossover Operator",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Mutation Operator",
+            "page": 5
+        },{
+            "level": "H1",
+            "text": "5. Traffic Simulation and Results",
+            "page": 6
+        },{
+            "level": "H2",
+            "text": "Traditional Logic Method",
+            "page": 6
+        },{
+            "level": "H2",
+            "text": "Genetic Algorithm Method",
+            "page": 6
+        },{
+            "level": "H1",
+            "text": "6. Conclusion",
+            "page": 8
+        },{
+            "level": "H1",
+            "text": "Conflict of Interests",
+            "page": 9
+        },{
+            "level": "H1",
+            "text": "References",
+            "page": 9
+        }
+    ]
+}

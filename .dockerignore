@@ -1,0 +1,30 @@
+# Version control
+.git
+.gitignore
+
+# Python virtual environment
+.venv/
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Editor and OS-specific files
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*~
+
+# Local development files
+.env
+.env.*
+*.log
+
+# Data folders not needed inside image
+data/
+output/
+results/

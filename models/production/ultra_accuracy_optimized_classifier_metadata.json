@@ -1,0 +1,22 @@
+{
+  "model_components": [
+    "RandomForest",
+    "XGBoost",
+    "Neural Network",
+    "Extra Trees",
+    "Gradient Boosting",
+    "LightGBM",
+    "SVM"
+  ],
+  "ensemble_weights": {
+    "RandomForest": 0.14387254901960786,
+    "XGBoost": 0.14362745098039217,
+    "Neural Network": 0.1392156862745098,
+    "Extra Trees": 0.14362745098039217,
+    "Gradient Boosting": 0.1428921568627451,
+    "LightGBM": 0.1450980392156863,
+    "SVM": 0.14166666666666666
+  },
+  "feature_count": 40,
+  "training_samples": "unknown"
+}

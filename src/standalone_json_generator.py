@@ -312,76 +312,172 @@ class UltraEnhancedJSONGenerator:
             return pd.DataFrame()
     
     def _predict_with_ml(self, df_features: pd.DataFrame, blocks: List[Dict]) -> List[str]:
-        """Make ML predictions with confidence scoring"""
+        """Optimized ML predictions with intelligent fallback"""
         
         try:
-            # Prepare features for prediction
+            # PERFORMANCE: Batch processing optimization
             X = df_features.copy()
             
-            # Handle missing columns
-            for col in self.classifier.feature_columns:
-                if col not in X.columns:
-                    X[col] = 0
+            # PERFORMANCE: Faster column handling
+            missing_cols = set(self.classifier.feature_columns) - set(X.columns)
+            for col in missing_cols:
+                X[col] = 0
             
-            # Reorder columns to match training
+            # PERFORMANCE: Efficient reordering
             X = X.reindex(columns=self.classifier.feature_columns, fill_value=0)
             
-            # Handle non-numeric columns
+            # PERFORMANCE: Vectorized data type conversion
             for col in X.columns:
                 if X[col].dtype == 'object':
                     X[col] = pd.Categorical(X[col]).codes
             
-            # Scale features
+            # PERFORMANCE: Single scaling operation
             X_scaled = self.classifier.scaler.transform(X)
             
-            # Get predictions and probabilities
-            predictions = self.classifier.predict_ensemble(X_scaled)
-            probabilities = self.classifier.predict_proba_ensemble(X_scaled)
+            # PERFORMANCE: Optimized ensemble prediction
+            predictions = self._fast_ensemble_predict(X_scaled)
+            probabilities = self._fast_ensemble_proba(X_scaled)
             
             # Convert back to labels
             labels = self.classifier.label_encoder.inverse_transform(predictions)
             
-            # Apply confidence thresholds and heuristic fallbacks
-            final_predictions = []
+            # ACCURACY: Document-type aware confidence adjustment
+            doc_stats = self._compute_document_statistics(blocks)
+            doc_type = self._detect_document_type(blocks, doc_stats)
             
-            # Check if this is an invitation/flyer document
-            all_text = ' '.join(b.get('text', '').lower() for b in blocks)
-            is_invitation = any(word in all_text for word in ['invitation', 'party', 'rsvp', 'topjump', 'address:'])
+            final_predictions = []
             
             for i, (label, block) in enumerate(zip(labels, blocks)):
                 confidence = np.max(probabilities[i]) if probabilities is not None and len(probabilities) > i else 0.5
                 
-                # Use document-type aware confidence thresholds
-                if is_invitation:
-                    # For invitations, trust heuristics more for heading-like text
-                    text = block.get('text', '').lower()
-                    if any(word in text for word in ['hope', 'see', 'there']) and block.get('avg_font_size', 12) > 20:
-                        # Force heuristic for large promotional text
-                        heuristic_label = self._get_heuristic_label(block)
-                        final_predictions.append(heuristic_label)
-                    elif confidence < 0.6:  # Higher threshold for invitations
-                        heuristic_label = self._get_heuristic_label(block)
-                        final_predictions.append(heuristic_label)
-                    else:
-                        final_predictions.append(label)
+                # ACCURACY: Dynamic confidence thresholds by document type - VERY HIGH THRESHOLDS TO PREFER HEURISTICS
+                confidence_thresholds = {
+                    'academic': 0.8,      # Very high - prefer heuristics
+                    'technical': 0.85,    # Very high - prefer heuristics
+                    'business': 0.85,     # Very high - prefer heuristics
+                    'form': 0.75,         # Very high - prefer heuristics
+                    'invitation': 0.9,    # Very high - prefer heuristics
+                    'general': 0.8        # Very high - prefer heuristics
+                }
+                
+                threshold = confidence_thresholds.get(doc_type, 0.4)
+                
+                # ACCURACY: Smart ML/heuristic hybrid decision
+                if confidence < threshold or self._should_use_heuristic(label, block, doc_type):
+                    heuristic_label = self._get_heuristic_label_fast(block, doc_stats, doc_type)
+                    final_predictions.append(heuristic_label)
                 else:
-                    # Original logic for formal documents
-                    if confidence < 0.4 or label == 'Title':  # Lower threshold, always use heuristics for titles
-                        heuristic_label = self._get_heuristic_label(block)
-                        final_predictions.append(heuristic_label)
-                    else:
-                        final_predictions.append(label)
+                    final_predictions.append(label)
             
             return final_predictions
             
         except Exception as e:
             logger.error(f"ML prediction failed: {e}")
-            return self._apply_ultra_heuristics(blocks)
+            # PERFORMANCE: Fast fallback to optimized heuristics
+            doc_stats = self._compute_document_statistics(blocks)
+            doc_type = self._detect_document_type(blocks, doc_stats)
+            return [self._get_heuristic_label_fast(block, doc_stats, doc_type) for block in blocks]
+    
+    def _fast_ensemble_predict(self, X):
+        """Optimized ensemble prediction - RESTORED FULL ENSEMBLE FOR ACCURACY"""
+        if not self.classifier.models:
+            return np.array([])
+        
+        # ACCURACY PRIORITY: Use all models, not just top 3
+        ensemble_pred = np.zeros(len(X))
+        total_weight = 0
+        
+        for name, model in self.classifier.models.items():
+            if model:
+                try:
+                    pred = model.predict(X)
+                    weight = self.classifier.ensemble_weights.get(name, 1.0)
+                    ensemble_pred += weight * pred
+                    total_weight += weight
+                except Exception:
+                    continue
+        
+        if total_weight > 0:
+            ensemble_pred /= total_weight
+        
+        return np.round(ensemble_pred).astype(int)
+    
+    def _fast_ensemble_proba(self, X):
+        """Optimized ensemble probability prediction - RESTORED FULL ENSEMBLE"""
+        if not self.classifier.models:
+            return np.array([])
+        
+        # ACCURACY PRIORITY: Use all models with probability support
+        prob_models = [(name, model) for name, model in self.classifier.models.items() 
+                      if hasattr(model, 'predict_proba')]
+        
+        if not prob_models:
+            return np.array([])
+        
+        ensemble_proba = None
+        total_weight = 0
+        
+        for name, model in prob_models:  # Use all models, not just top 3
+            try:
+                proba = model.predict_proba(X)
+                weight = self.classifier.ensemble_weights.get(name, 1.0)
+                if ensemble_proba is None:
+                    ensemble_proba = weight * proba
+                else:
+                    ensemble_proba += weight * proba
+                total_weight += weight
+            except Exception:
+                continue
+        
+        if total_weight > 0 and ensemble_proba is not None:
+            ensemble_proba /= total_weight
+        
+        return ensemble_proba
+    
+    def _should_use_heuristic(self, ml_label: str, block: Dict, doc_type: str) -> bool:
+        """Smart decision on when to use heuristics over ML - IMPROVED SELECTIVITY"""
+        
+        text = block.get('text', '').strip().lower()
+        
+        # ACCURACY: More selective heuristic usage - only for clear cases
+        # Reduced from always using heuristics for titles
+        if ml_label == 'Title':
+            # Only use heuristics if ML confidence is very low or text has strong title patterns
+            font_size = block.get('avg_font_size', 12)
+            word_count = len(text.split())
+            if (font_size < 14 and word_count > 15):  # Probably not a title
+                return True
+        
+        # ACCURACY: Use heuristics for very obvious patterns only
+        strong_obvious_patterns = {
+            'academic': ['abstract', 'introduction', 'conclusion', 'references', 'methodology'],
+            'technical': ['overview', 'installation', 'configuration', 'api reference'],
+            'business': ['executive summary', 'recommendations', 'next steps', 'conclusion'],
+            'form': ['personal information', 'contact details', 'declaration', 'signature']
+        }
+        
+        # Only use heuristics if text exactly matches these strong patterns
+        if any(text.strip().lower() == pattern for pattern in strong_obvious_patterns.get(doc_type, [])):
+            return True
+        
+        # ACCURACY: Use heuristics for very clear numbered sections only
+        if (text.startswith(('1.', '2.', '3.')) and 
+            len(text.split()) <= 5 and  # Very short numbered items
+            any(char.isalpha() for char in text)):  # Has actual content
+            return True
+        
+        return False
     
     def _apply_ultra_heuristics(self, blocks: List[Dict]) -> List[str]:
-        """Apply ultra-enhanced heuristic predictions"""
+        """Apply ultra-enhanced heuristic predictions with optimized pattern recognition"""
         
         predictions = []
+        
+        # PERFORMANCE OPTIMIZATION: Pre-compute document-level statistics once
+        doc_stats = self._compute_document_statistics(blocks)
+        
+        # ACCURACY OPTIMIZATION: Detect document type early for specialized processing
+        doc_type = self._detect_document_type(blocks, doc_stats)
         
         for i, block in enumerate(blocks):
             text = block.get('text', '').strip()
@@ -390,99 +486,198 @@ class UltraEnhancedJSONGenerator:
                 predictions.append('Paragraph')
                 continue
             
-            # Enhanced heuristic logic
-            if self._is_likely_title(block, blocks, i):
-                predictions.append('Title')
-            elif self._is_likely_heading(block, blocks, i):
-                predictions.append(f'H{self._determine_heading_level(block, blocks, i)}')
-            else:
-                predictions.append('Paragraph')
+            # OPTIMIZATION: Use document-type-aware classification
+            prediction = self._classify_block_optimized(block, blocks, i, doc_stats, doc_type)
+            predictions.append(prediction)
         
         return predictions
     
-    def _is_likely_title(self, block: Dict, all_blocks: List[Dict], index: int) -> bool:
-        """Enhanced title detection with multiple strategies"""
+    def _compute_document_statistics(self, blocks: List[Dict]) -> Dict[str, Any]:
+        """Pre-compute document-level statistics for optimization"""
+        
+        font_sizes = [b.get('avg_font_size', 12) for b in blocks if b.get('avg_font_size')]
+        
+        return {
+            'avg_font_size': np.mean(font_sizes) if font_sizes else 12,
+            'max_font_size': max(font_sizes) if font_sizes else 12,
+            'min_font_size': min(font_sizes) if font_sizes else 12,
+            'unique_font_sizes': sorted(set(font_sizes), reverse=True) if font_sizes else [12],
+            'total_blocks': len(blocks),
+            'all_text_lower': ' '.join(b.get('text', '').lower() for b in blocks),
+            'has_numbers': any(any(c.isdigit() for c in b.get('text', '')) for b in blocks),
+            'avg_text_length': np.mean([len(b.get('text', '')) for b in blocks])
+        }
+    
+    def _detect_document_type(self, blocks: List[Dict], doc_stats: Dict[str, Any]) -> str:
+        """Fast document type detection for specialized processing"""
+        
+        all_text = doc_stats['all_text_lower']
+        
+        # Academic/Research papers
+        if any(term in all_text for term in ['abstract', 'introduction', 'methodology', 'references', 'conclusion']):
+            return 'academic'
+        
+        # Technical/Manual documents
+        if any(term in all_text for term in ['api', 'implementation', 'configuration', 'installation', 'documentation']):
+            return 'technical'
+        
+        # Invitations/Flyers
+        if any(term in all_text for term in ['invitation', 'party', 'rsvp', 'join us', 'address:', 'date:']):
+            return 'invitation'
+        
+        # Forms/Applications
+        if any(term in all_text for term in ['application', 'form', 'please fill', 'submit', 'signature']):
+            return 'form'
+        
+        # Business/Official documents
+        if any(term in all_text for term in ['company', 'organization', 'department', 'office', 'proposal']):
+            return 'business'
+        
+        return 'general'
+    
+    def _classify_block_optimized(self, block: Dict, all_blocks: List[Dict], index: int, 
+                                 doc_stats: Dict[str, Any], doc_type: str) -> str:
+        """Optimized block classification with document-type awareness"""
         
         text = block.get('text', '').strip()
-        if not text:
+        font_size = block.get('avg_font_size', 12)
+        
+        # OPTIMIZATION: Fast title detection using pre-computed stats
+        if self._is_title_optimized(block, index, doc_stats, doc_type):
+            return 'Title'
+        
+        # OPTIMIZATION: Fast heading detection with type-specific patterns
+        heading_level = self._get_heading_level_optimized(block, doc_stats, doc_type)
+        if heading_level > 0:
+            return f'H{heading_level}'
+        
+        return 'Paragraph'
+    
+    def _is_title_optimized(self, block: Dict, index: int, doc_stats: Dict[str, Any], doc_type: str) -> bool:
+        """Optimized title detection with document-type awareness"""
+        
+        text = block.get('text', '').strip()
+        if not text or len(text) < 5:
             return False
         
-        # Check if this looks like an invitation/flyer - should not have traditional titles
         text_lower = text.lower()
-        is_invitation = any(word in ' '.join(b.get('text', '').lower() for b in all_blocks) 
-                           for word in ['invitation', 'party', 'rsvp', 'topjump', 'address:'])
+        font_size = block.get('avg_font_size', 12)
+        word_count = len(text.split())
         
-        # Strategy 1: Strong title patterns (document-specific)
-        strong_title_keywords = [
-            'application form for', 'request for proposal', 'rfp:', 'overview foundation',
-            'stem pathways', 'digital library'
-        ]
-        if any(keyword in text_lower for keyword in strong_title_keywords):
+        # ACCURACY BOOST: Strong title patterns by document type
+        strong_patterns = {
+            'academic': ['abstract', 'a study of', 'analysis of', 'research on', 'investigation'],
+            'technical': ['user guide', 'documentation', 'api reference', 'manual', 'specification'],
+            'business': ['proposal for', 'report on', 'overview of', 'strategy', 'plan'],
+            'form': ['application for', 'request form', 'enrollment', 'registration'],
+            'invitation': ['you are invited', 'join us', 'celebration', 'party invitation'],
+            'general': ['overview', 'summary', 'introduction', 'guide to']
+        }
+        
+        if any(pattern in text_lower for pattern in strong_patterns.get(doc_type, [])):
             return True
         
-        # For invitations/flyers, be much more restrictive
-        if is_invitation:
-            # Only consider as title if it's a very strong candidate
-            avg_font_size = np.mean([b.get('avg_font_size', 12) for b in all_blocks if b.get('avg_font_size')])
-            if (block.get('avg_font_size', 12) > avg_font_size * 1.5 and  # Much larger font
-                index == 0 and  # Must be first block
-                len(text.split()) >= 5 and  # Substantial text
-                not text.endswith(':') and  # Not a label
-                not text.startswith('address') and
-                not text.startswith('rsvp')):
-                return True
+        # PERFORMANCE: Quick position-based filtering
+        if index > doc_stats['total_blocks'] * 0.3:  # Not in first 30%
             return False
         
-        # Strategy 2: Position and font-based (for formal documents)
-        if index < len(all_blocks) * 0.2:  # First 20% of document
-            avg_font_size = np.mean([b.get('avg_font_size', 12) for b in all_blocks if b.get('avg_font_size')])
-            if block.get('avg_font_size', 12) > avg_font_size * 1.3:  # Higher threshold
-                if 5 <= len(text.split()) <= 20:  # More restrictive length
-                    return True
+        # ACCURACY: Font size analysis with document type consideration - IMPROVED THRESHOLDS
+        font_threshold = {
+            'academic': 1.3,      # Increased from 1.2
+            'technical': 1.35,    # Increased from 1.25
+            'business': 1.4,      # Increased from 1.3
+            'form': 1.25,         # Increased from 1.15
+            'invitation': 1.5,    # Increased from 1.4
+            'general': 1.3        # Increased from 1.25
+        }.get(doc_type, 1.3)
         
-        # Strategy 3: First substantial block for formal documents
-        if index == 0 and len(text.split()) >= 5 and not is_invitation:
-            avg_font_size = np.mean([b.get('avg_font_size', 12) for b in all_blocks if b.get('avg_font_size')])
-            if block.get('avg_font_size', 12) >= avg_font_size * 1.1:
+        if font_size > doc_stats['avg_font_size'] * font_threshold:
+            # ACCURACY: Length and content validation - STRICTER CRITERIA
+            if (4 <= word_count <= 15 and  # Stricter word count range
+                not text.endswith(':') and
+                not text.endswith('.') and  # Titles usually don't end with periods
+                not any(avoid in text_lower for avoid in ['page', 'figure', 'table', 'section', 'paragraph']) and
+                text[0].isupper()):  # Titles should start with capital letter
+                return True
+        
+        # ACCURACY: First block special handling
+        if index == 0 and font_size >= doc_stats['avg_font_size'] * 1.1:
+            if word_count >= 3 and not text_lower.startswith(('the ', 'a ', 'an ')):
                 return True
         
         return False
     
-    def _is_likely_heading(self, block: Dict, all_blocks: List[Dict], index: int) -> bool:
-        """Comprehensive heading detection"""
+    def _get_heading_level_optimized(self, block: Dict, doc_stats: Dict[str, Any], doc_type: str) -> int:
+        """Optimized heading level detection with document-type patterns"""
         
         text = block.get('text', '').strip()
         if not text:
-            return False
+            return 0
         
-        # Font-based detection
         font_size = block.get('avg_font_size', 12)
-        avg_font_size = np.mean([b.get('avg_font_size', 12) for b in all_blocks if b.get('avg_font_size')])
+        text_lower = text.lower()
+        word_count = len(text.split())
         
-        if font_size > avg_font_size * 1.05:  # More lenient threshold
-            # Text pattern detection
+        # PERFORMANCE: Quick elimination of obvious non-headings
+        if (word_count > 20 or 
+            text.endswith('.') and word_count > 8 or
+            len(text) > 200):
+            return 0
+        
+        # ACCURACY: Document-type specific heading patterns
+        heading_patterns = {
+            'academic': {
+                'strong': ['abstract', 'introduction', 'methodology', 'results', 'conclusion', 'references', 'discussion'],
+                'numbered': r'^\d+\.?\s+[A-Z]',
+                'level_threshold': 1.15    # Increased from 1.1
+            },
+            'technical': {
+                'strong': ['overview', 'installation', 'configuration', 'api', 'examples', 'troubleshooting', 'requirements'],
+                'numbered': r'^\d+\.?\d*\.?\s+[A-Z]',
+                'level_threshold': 1.12    # Increased from 1.08
+            },
+            'business': {
+                'strong': ['executive summary', 'background', 'objectives', 'recommendations', 'next steps', 'conclusion'],
+                'numbered': r'^\d+\.\s+[A-Z]',
+                'level_threshold': 1.2     # Increased from 1.15
+            },
+            'form': {
+                'strong': ['personal information', 'contact details', 'education', 'experience', 'declaration'],
+                'numbered': r'^\d+\.\s+',
+                'level_threshold': 1.1     # Increased from 1.05
+            }
+        }
+        
+        patterns = heading_patterns.get(doc_type, heading_patterns['technical'])
+        
+        # ACCURACY: Strong semantic patterns
+        if any(pattern in text_lower for pattern in patterns['strong']):
+            if font_size >= doc_stats['avg_font_size'] * patterns['level_threshold']:
+                return self._determine_level_by_font(font_size, doc_stats)
+        
+        # ACCURACY: Numbered headings
+        import re
+        if re.match(patterns['numbered'], text):
+            return self._determine_level_by_font(font_size, doc_stats)
+        
+        # ACCURACY: Font-based detection with improved thresholds
+        if font_size > doc_stats['avg_font_size'] * patterns['level_threshold']:
+            # Additional pattern checks
             if any([
-                text.isupper() and len(text.split()) <= 10,  # Short uppercase
-                text.startswith(('1.', '2.', '3.', '4.', '5.', 'I.', 'II.', 'III.')),  # Numbered
-                text.endswith(':') and len(text.split()) <= 8,  # Ends with colon
-                len(text.split()) <= 8 and not text.endswith('.'),  # Short without period
+                text.isupper() and word_count <= 8,
+                text.endswith(':') and word_count <= 6,
                 block.get('flags', 0) & 16,  # Bold flag
-                text.startswith(('Chapter', 'Section', 'Part', 'Appendix')),  # Chapter markers
+                text.startswith(('Chapter', 'Section', 'Part', 'Appendix'))
             ]):
-                return True
+                return self._determine_level_by_font(font_size, doc_stats)
         
-        return False
+        return 0
     
-    def _determine_heading_level(self, block: Dict, all_blocks: List[Dict], index: int) -> int:
-        """Determine heading level based on font size and context"""
+    def _determine_level_by_font(self, font_size: float, doc_stats: Dict[str, Any]) -> int:
+        """Determine heading level based on font size distribution"""
         
-        font_size = block.get('avg_font_size', 12)
+        unique_sizes = doc_stats['unique_font_sizes']
         
-        # Get font size distribution
-        font_sizes = [b.get('avg_font_size', 12) for b in all_blocks if b.get('avg_font_size')]
-        unique_sizes = sorted(set(font_sizes), reverse=True)
-        
-        # Map font size to heading level
         if len(unique_sizes) >= 3:
             if font_size >= unique_sizes[0]:
                 return 1
@@ -490,97 +685,291 @@ class UltraEnhancedJSONGenerator:
                 return 2
             else:
                 return 3
-        elif font_size >= 14:
+        elif font_size >= doc_stats['avg_font_size'] * 1.3:
             return 1
-        elif font_size >= 12:
+        elif font_size >= doc_stats['avg_font_size'] * 1.15:
             return 2
         else:
             return 3
     
-    def _get_heuristic_label(self, block: Dict) -> str:
-        """Get heuristic label for a single block"""
+    def _get_heuristic_label_fast(self, block: Dict, doc_stats: Dict[str, Any], doc_type: str) -> str:
+        """Fast heuristic labeling with document-type awareness"""
         
         text = block.get('text', '').strip()
-        font_size = block.get('avg_font_size', 12)
-        
         if not text:
             return 'Paragraph'
         
-        # Check if it's a heading first (more specific than title check)
-        if font_size >= 14 or any([
-            text.isupper() and len(text.split()) <= 8,
-            text.startswith(('1.', '2.', '3.', 'Chapter', 'Section')),
-            text.endswith(':'),
-            block.get('has_bold', False) and font_size >= 12
-        ]):
-            # Determine heading level based on font size
-            if font_size >= 20:
-                return 'H1'
-            elif font_size >= 16:
-                return 'H2'
-            else:
-                return 'H3'
-        # Only classify as title if it's truly title-like (not just large text)
-        elif font_size >= 16 and len(text.split()) <= 15 and not any([
-            'hope' in text.lower(),
-            'see' in text.lower(),
-            text.startswith(('address:', 'rsvp:')),
-            '!' in text
-        ]):
+        font_size = block.get('avg_font_size', 12)
+        text_lower = text.lower()
+        word_count = len(text.split())
+        
+        # PERFORMANCE: Quick title patterns
+        title_indicators = {
+            'academic': ['abstract', 'a study of', 'analysis of'],
+            'technical': ['user guide', 'documentation', 'api reference'],
+            'business': ['executive summary', 'proposal', 'overview'],
+            'form': ['application for', 'request form'],
+            'invitation': ['you are invited', 'join us'],
+            'general': ['introduction', 'overview']
+        }
+        
+        if any(pattern in text_lower for pattern in title_indicators.get(doc_type, [])):
+            if font_size >= doc_stats['avg_font_size'] * 1.1:
+                return 'Title'
+        
+        # PERFORMANCE: Quick heading detection
+        if font_size >= doc_stats['avg_font_size'] * 1.08:
+            # Strong heading patterns
+            if any([
+                text.isupper() and word_count <= 8,
+                text.startswith(('1.', '2.', '3.', 'Chapter', 'Section')),
+                text.endswith(':') and word_count <= 6,
+                block.get('flags', 0) & 16  # Bold
+            ]):
+                # Determine level quickly
+                if font_size >= doc_stats['avg_font_size'] * 1.3:
+                    return 'H1'
+                elif font_size >= doc_stats['avg_font_size'] * 1.15:
+                    return 'H2'
+                else:
+                    return 'H3'
+        
+        # PERFORMANCE: Title detection for large fonts
+        if (font_size >= doc_stats['avg_font_size'] * 1.2 and 
+            3 <= word_count <= 15 and
+            not text.endswith('.') and
+            not any(avoid in text_lower for avoid in ['page', 'figure', 'table'])):
             return 'Title'
-        elif font_size >= 12 and (block.get('has_bold', False)):  # Bold
-            return 'H3'
-        else:
-            return 'Paragraph'
+        
+        return 'Paragraph'
     
     def _generate_structured_output(self, predictions: List[str], blocks: List[Dict]) -> Dict[str, Any]:
-        """Generate structured JSON output with confidence scores"""
+        """Generate optimized structured JSON output with enhanced accuracy"""
         
         title = ""
         outline = []
         
-        # Extract title - use both ML predictions and heuristics
-        title_indices = [i for i, pred in enumerate(predictions) if pred == 'Title']
-        if not title_indices:
-            # If ML didn't find title, use heuristics
-            for i, block in enumerate(blocks):
-                if self._is_likely_title(block, blocks, i):
-                    title = block.get('text', '').strip()
-                    break
-        else:
-            title = blocks[title_indices[0]].get('text', '').strip()
+        # PERFORMANCE OPTIMIZATION: Pre-compute document-level statistics once
+        doc_stats = self._compute_document_statistics(blocks)
+        doc_type = self._detect_document_type(blocks, doc_stats)
         
-        # Extract headings with levels and confidence
+        # ACCURACY: Multi-strategy title extraction - IMPROVED WITH ORIGINAL PATTERNS
+        title_candidates = []
+        
+        # Strategy 1: ML predictions
+        title_indices = [i for i, pred in enumerate(predictions) if pred == 'Title']
+        for idx in title_indices:
+            title_candidates.append((blocks[idx].get('text', '').strip(), idx, 'ml', 0.8))
+        
+        # Strategy 2: Original heuristic patterns (high-confidence)
+        for i, block in enumerate(blocks[:8]):  # Check first 8 blocks
+            text = block.get('text', '').strip()
+            font_size = block.get('avg_font_size', 12)
+            
+            # Original title detection logic - for comparison with 52.7% accuracy system
+            if text and len(text) >= 5:
+                word_count = len(text.split())
+                
+                # Strong title indicators from original system
+                if (font_size >= doc_stats['avg_font_size'] * 1.2 and 
+                    3 <= word_count <= 12 and  # Shorter titles preferred
+                    i <= 3 and  # Must be in first 4 blocks
+                    not text.lower().startswith(('the ', 'a ', 'an ')) and
+                    text[0].isupper() and
+                    not text.endswith('.') and
+                    not any(avoid in text.lower() for avoid in ['page', 'figure', 'table'])):
+                    
+                    confidence = 0.9 if i == 0 else (0.8 if i == 1 else 0.7)
+                    title_candidates.append((text, i, 'original_heuristic', confidence))
+        
+        # Strategy 3: Document-specific title patterns
+        for i, block in enumerate(blocks[:5]):  # Check first 5 blocks only
+            text = block.get('text', '').strip()
+            if self._is_title_optimized(block, i, doc_stats, doc_type):
+                confidence = 0.9 if i == 0 else 0.7  # Higher confidence for first block
+                title_candidates.append((text, i, 'doc_specific', confidence))
+        
+        # ACCURACY: Choose best title candidate with preference for shorter, earlier titles
+        if title_candidates:
+            # Sort by confidence, then by position, then by length (shorter preferred)
+            title_candidates.sort(key=lambda x: (-x[3], x[1], len(x[0])))
+            title = title_candidates[0][0]
+        
+        # ACCURACY: Enhanced heading extraction with post-processing - RESTORED ORIGINAL PATTERNS
+        heading_candidates = []
+        
+        # Strategy 1: ML predictions
         for i, (pred, block) in enumerate(zip(predictions, blocks)):
-            if pred.startswith('H') or pred in ['Title'] and pred != 'Title':
+            if pred.startswith('H'):
                 try:
                     level = int(pred[1]) if len(pred) > 1 and pred[1].isdigit() else 1
+                    text = block.get('text', '').strip()
+                    
+                    # ACCURACY: Validate heading quality
+                    if self._is_valid_heading(text, level, doc_type):
+                        confidence = 0.8 if self.classifier.trained else 0.6
+                        heading_candidates.append({
+                            'text': text,
+                            'level': level,
+                            'page': block.get('page', 1),
+                            'confidence': confidence,
+                            'position': i
+                        })
                 except:
-                    level = 1
-                
-                outline.append({
-                    'text': block.get('text', '').strip(),
-                    'level': level,
-                    'page': block.get('page', 1),
-                    'confidence': 0.8 if self.classifier.trained else 0.6  # Confidence score
-                })
+                    continue
         
-        # If no headings found via ML, try heuristics
-        if not outline:
+        # Strategy 2: Original heuristic detection for missing headings
+        for i, block in enumerate(blocks):
+            text = block.get('text', '').strip()
+            if text and len(text) >= 3:
+                font_size = block.get('avg_font_size', 12)
+                word_count = len(text.split())
+                
+                # Original heading patterns that achieved 52.7% accuracy
+                is_heading = False
+                level = 3  # default
+                
+                # Check for obvious heading patterns - MORE AGGRESSIVE LIKE ORIGINAL
+                if (word_count <= 20 and  # Increased from 15
+                    (font_size >= doc_stats['avg_font_size'] * 1.05 or  # Lower threshold
+                     text.isupper() or 
+                     text.startswith(('1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', 
+                                     'Chapter', 'Section', 'Part', 'Appendix', 'Figure', 'Table')) or
+                     text.endswith((':', '?')) or
+                     block.get('flags', 0) & 16 or  # Bold flag
+                     any(word in text.upper() for word in ['OVERVIEW', 'INTRODUCTION', 'CONCLUSION', 
+                                                           'SUMMARY', 'ABSTRACT', 'REFERENCES']))):
+                    
+                    is_heading = True
+                    if font_size >= doc_stats['avg_font_size'] * 1.25:
+                        level = 1
+                    elif font_size >= doc_stats['avg_font_size'] * 1.15:
+                        level = 2
+                    else:
+                        level = 3
+                
+                # Add if not already detected and is valid
+                if is_heading and self._is_valid_heading(text, level, doc_type):
+                    # Check if not already added
+                    already_exists = any(h['text'].lower() == text.lower() and abs(h['position'] - i) < 2 
+                                       for h in heading_candidates)
+                    if not already_exists:
+                        heading_candidates.append({
+                            'text': text,
+                            'level': level,
+                            'page': block.get('page', 1),
+                            'confidence': 0.7,
+                            'position': i
+                        })
+        
+        # ACCURACY: Fallback heading detection if still none found
+        if not heading_candidates:
             for i, block in enumerate(blocks):
-                if self._is_likely_heading(block, blocks, i):
-                    level = self._determine_heading_level(block, blocks, i)
-                    outline.append({
-                        'text': block.get('text', '').strip(),
-                        'level': level,
-                        'page': block.get('page', 1),
-                        'confidence': 0.6  # Lower confidence for heuristic-only
-                    })
+                heading_level = self._get_heading_level_optimized(block, doc_stats, doc_type)
+                if heading_level > 0:
+                    text = block.get('text', '').strip()
+                    if self._is_valid_heading(text, heading_level, doc_type):
+                        heading_candidates.append({
+                            'text': text,
+                            'level': heading_level,
+                            'page': block.get('page', 1),
+                            'confidence': 0.6,
+                            'position': i
+                        })
+        
+        # ACCURACY: Post-process headings for consistency
+        outline = self._post_process_headings(heading_candidates, doc_type)
         
         return {
             'title': title,
             'outline': outline
         }
+    
+    def _is_valid_heading(self, text: str, level: int, doc_type: str) -> bool:
+        """Validate if text is a legitimate heading"""
+        
+        if not text or len(text) < 2:
+            return False
+        
+        word_count = len(text.split())
+        
+        # ACCURACY: Length validation by document type - MORE PERMISSIVE
+        max_words = {
+            'academic': 20,        # Increased from 12
+            'technical': 18,       # Increased from 10
+            'business': 25,        # Increased from 15
+            'form': 15,           # Increased from 8
+            'invitation': 12,      # Increased from 6
+            'general': 18         # Increased from 10
+        }.get(doc_type, 18)
+        
+        if word_count > max_words:
+            return False
+        
+        # ACCURACY: Content validation
+        invalid_patterns = [
+            'lorem ipsum', 'copyright', 'all rights reserved',
+            'page ', 'figure ', 'table ', 'www.', '.com', '.org',
+            'email:', 'tel:', 'phone:', 'fax:'
+        ]
+        
+        text_lower = text.lower()
+        if any(pattern in text_lower for pattern in invalid_patterns):
+            return False
+        
+        # ACCURACY: Structure validation
+        if text.count('.') > 3 or text.count(',') > 2:
+            return False
+        
+        return True
+    
+    def _post_process_headings(self, heading_candidates: List[Dict], doc_type: str) -> List[Dict]:
+        """Post-process headings for better structure and accuracy"""
+        
+        if not heading_candidates:
+            return []
+        
+        # ACCURACY: Sort by position in document
+        heading_candidates.sort(key=lambda x: x.get('position', float('inf')))
+        
+        # ACCURACY: Level consistency adjustment
+        processed_headings = []
+        prev_level = 0
+        
+        for heading in heading_candidates:
+            current_level = heading['level']
+            
+            # ACCURACY: Prevent level jumps greater than 1
+            if prev_level > 0 and current_level > prev_level + 1:
+                current_level = prev_level + 1
+            
+            # ACCURACY: Remove duplicate headings
+            if processed_headings:
+                last_heading = processed_headings[-1]
+                # Safe position comparison - use default if key missing
+                last_pos = last_heading.get('position', float('inf'))
+                curr_pos = heading.get('position', float('inf'))
+                if (last_heading['text'].lower() == heading['text'].lower() or
+                    (last_pos != float('inf') and curr_pos != float('inf') and abs(last_pos - curr_pos) < 3)):
+                    continue
+            
+            processed_headings.append({
+                'text': heading['text'],
+                'level': current_level,
+                'page': heading['page'],
+                'confidence': heading['confidence'],
+                'position': heading.get('position', len(processed_headings))
+            })
+            
+            prev_level = current_level
+        
+        # ACCURACY: Final validation - remove obvious false positives
+        final_headings = []
+        for heading in processed_headings:
+            if len(heading['text'].split()) >= 1:  # At least one word
+                final_headings.append(heading)
+        
+        return final_headings
     
     def train_model(self, training_csv_path: str) -> float:
         """Train the ultra-enhanced model"""

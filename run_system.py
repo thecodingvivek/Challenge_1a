@@ -20,9 +20,7 @@ from src.standalone_json_generator import UltraEnhancedJSONGenerator
 def main():
     parser = argparse.ArgumentParser(description='PDF Structure Detection System')
     parser.add_argument('--mode', choices=['train', 'process', 'evaluate'], required=True,
-                        help='Mode: train (train model), process (process PDF), evaluate (test on ground truth)')
-    parser.add_argument('--input', help='Input PDF file path (for process mode)')
-    parser.add_argument('--output', help='Output JSON file path (for process mode)')
+                        help='Mode: train (train model), process (process all PDFs in /input), evaluate (test on ground truth)')
     
     args = parser.parse_args()
     
@@ -36,15 +34,26 @@ def main():
             print("⚠️ Training completed with improvements - check output for details")
     
     elif args.mode == 'process':
-        if not args.input:
-            print("❌ Error: --input PDF file path required for process mode")
+        input_dir = "input"
+        output_dir = "output"
+        
+        # Check if input directory exists
+        if not os.path.exists(input_dir):
+            print(f"❌ Error: Input directory not found: {input_dir}")
+            print("Please create an 'input' directory and place your PDFs there.")
             return
         
-        if not os.path.exists(args.input):
-            print(f"❌ Error: Input file not found: {args.input}")
+        # Create output directory if it doesn't exist
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # Find all PDF files in input directory
+        pdf_files = [f for f in os.listdir(input_dir) if f.lower().endswith('.pdf')]
+        
+        if not pdf_files:
+            print(f"❌ No PDF files found in {input_dir} directory")
             return
         
-        print(f"📄 Processing PDF: {args.input}")
+        print(f"� Found {len(pdf_files)} PDF files in {input_dir} directory")
         
         # Load the trained model
         model_path = "models/production/ultra_accuracy_optimized_classifier.pkl"
@@ -53,18 +62,44 @@ def main():
             print("   python run_system.py --mode train")
             return
         
-        # Process the PDF
+        # Process each PDF
         generator = UltraEnhancedJSONGenerator(model_path=model_path)
-        result = generator.process_pdf(args.input)
         
-        # Save or display result
-        if args.output:
-            with open(args.output, 'w', encoding='utf-8') as f:
-                json.dump(result, f, indent=2, ensure_ascii=False)
-            print(f"✅ Results saved to: {args.output}")
-        else:
-            print("📊 Extracted Structure:")
-            print(json.dumps(result, indent=2, ensure_ascii=False))
+        for pdf_file in pdf_files:
+            pdf_path = os.path.join(input_dir, pdf_file)
+            json_filename = os.path.splitext(pdf_file)[0] + '.json'
+            json_path = os.path.join(output_dir, json_filename)
+            
+            print(f"📄 Processing: {pdf_file}")
+            
+            try:
+                result = generator.process_pdf(pdf_path)
+                
+                # Format output according to requirements
+                formatted_output = {
+                    "title": result.get('title', ''),
+                    "outline": []
+                }
+                
+                # Convert outline to required format
+                for heading in result.get('outline', []):
+                    formatted_heading = {
+                        "level": heading.get('level', 1),
+                        "text": heading.get('text', ''),
+                        "page": heading.get('page', 1)
+                    }
+                    formatted_output["outline"].append(formatted_heading)
+                
+                # Save individual JSON file
+                with open(json_path, 'w', encoding='utf-8') as f:
+                    json.dump(formatted_output, f, indent=2, ensure_ascii=False)
+                
+                print(f"✅ Saved: {json_filename}")
+                
+            except Exception as e:
+                print(f"❌ Error processing {pdf_file}: {str(e)}")
+        
+        print(f"🎉 Processing complete! Results saved in {output_dir} directory")
     
     elif args.mode == 'evaluate':
         print("📊 Evaluating system on test set...")

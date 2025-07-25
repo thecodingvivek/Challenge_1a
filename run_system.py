@@ -26,7 +26,7 @@ def main():
     
     if args.mode == 'train':
         print("🚀 Training the ultra-enhanced model...")
-        from scripts.training.train_enhanced_model import main as train_main
+        from src.train_enhanced_model import main as train_main
         success = train_main()
         if success:
             print("✅ Training completed successfully!")
@@ -103,7 +103,7 @@ def main():
     
     elif args.mode == 'evaluate':
         print("📊 Evaluating system on test set...")
-        from scripts.training.train_enhanced_model import evaluate_on_test_set
+        from src.train_enhanced_model import evaluate_on_test_set
         success = evaluate_on_test_set()
         if success:
             print("✅ Evaluation completed - target accuracy achieved!")

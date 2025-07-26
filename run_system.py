@@ -15,7 +15,7 @@ project_root = os.path.dirname(current_file_path)
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from src.standalone_json_generator import UltraEnhancedJSONGenerator
+from src.json_generator import JSONGenerator
 
 def main():
     parser = argparse.ArgumentParser(description='PDF Structure Detection System')
@@ -25,8 +25,8 @@ def main():
     args = parser.parse_args()
     
     if args.mode == 'train':
-        print("🚀 Training the ultra-enhanced model...")
-        from src.train_enhanced_model import main as train_main
+        print("🚀 Training the model...")
+        from src.train_model import main as train_main
         success = train_main()
         if success:
             print("✅ Training completed successfully!")
@@ -63,7 +63,7 @@ def main():
             return
         
         # Process each PDF
-        generator = UltraEnhancedJSONGenerator(model_path=model_path)
+        generator = JSONGenerator(model_path=model_path)
         
         for pdf_file in pdf_files:
             pdf_path = os.path.join(input_dir, pdf_file)
@@ -103,7 +103,7 @@ def main():
     
     elif args.mode == 'evaluate':
         print("📊 Evaluating system on test set...")
-        from src.train_enhanced_model import evaluate_on_test_set
+        from src.train_model import evaluate_on_test_set
         success = evaluate_on_test_set()
         if success:
             print("✅ Evaluation completed - target accuracy achieved!")
@@ -113,6 +113,6 @@ def main():
 if __name__ == "__main__":
     print("="*80)
     print("PDF STRUCTURE DETECTION SYSTEM")
-    print("Ultra-Enhanced Version - 44.40% Ground Truth Accuracy (100% Title Detection)")
+    print("44.40% Ground Truth Accuracy (100% Title Detection)")
     print("="*80)
     main()

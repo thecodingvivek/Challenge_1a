@@ -16,18 +16,18 @@ project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_file_path
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from src.ultra_enhanced_feature_extractor import UltraEnhancedFeatureExtractor
-from src.standalone_json_generator import UltraEnhancedJSONGenerator
+from .feature_extractor import FeatureExtractor
+from .json_generator import JSONGenerator
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def extract_enhanced_features():
-    """Extract ultra-enhanced features from training data"""
+    """Extract features from training data"""
     
-    logger.info("=== EXTRACTING ULTRA-ENHANCED FEATURES ===")
+    logger.info("=== EXTRACTING FEATURES ===")
     
-    extractor = UltraEnhancedFeatureExtractor()
+    extractor = FeatureExtractor()
     
     # Process training data
     pdf_dir = "data/raw_pdfs/training"
@@ -42,12 +42,12 @@ def extract_enhanced_features():
         logger.error("No features extracted!")
         return False
     
-    # Save ultra-enhanced features
-    output_file = "data/processed/ultra_enhanced_training_features.csv"
+    # Save features
+    output_file = "data/processed/training_features.csv"
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     df.to_csv(output_file, index=False)
     
-    logger.info(f"Ultra-enhanced features saved to: {output_file}")
+    logger.info(f"Features saved to: {output_file}")
     logger.info(f"Total samples: {len(df)}")
     logger.info(f"Label distribution:\n{df['label'].value_counts()}")
     
@@ -63,26 +63,26 @@ def extract_enhanced_features():
     return True
 
 def train_enhanced_model():
-    """Train the ultra-enhanced model for maximum accuracy"""
+    """Train the model for maximum accuracy"""
     
-    logger.info("=== TRAINING ULTRA-ENHANCED MODEL ===")
+    logger.info("=== TRAINING MODEL ===")
     
     # Check if features exist
-    features_file = "data/processed/ultra_enhanced_training_features.csv"
+    features_file = "data/processed/training_features.csv"
     if not os.path.exists(features_file):
         logger.error(f"Features file not found: {features_file}")
         logger.info("Please run feature extraction first")
         return False
     
-    # Initialize ultra-enhanced generator
+    # Initialize generator
     model_path = "models/production/ultra_accuracy_optimized_classifier.pkl"
-    generator = UltraEnhancedJSONGenerator(model_path=model_path)
+    generator = JSONGenerator(model_path=model_path)
     
     # Train model
-    logger.info("Training ultra-enhanced ensemble model...")
+    logger.info("Training ensemble model...")
     accuracy = generator.train_model(features_file)
     
-    logger.info(f"✅ Ultra-enhanced model training completed!")
+    logger.info(f"✅ Model training completed!")
     logger.info(f"📊 Final accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
     
     if accuracy >= 0.90:
@@ -100,9 +100,9 @@ def train_enhanced_model():
         with open(metadata_path, 'r') as f:
             metadata = json.load(f)
         
-        logger.info("📈 Ultra-Enhanced Training Summary:")
+        logger.info("📈 Training Summary:")
         logger.info(f"  - Training samples: {metadata.get('training_samples', 0)}")
-        logger.info(f"  - Ultra features used: {metadata.get('feature_count', 0)}")
+        logger.info(f"  - Features used: {metadata.get('feature_count', 0)}")
         logger.info(f"  - Model components: {len(metadata.get('model_components', []))}")
         logger.info(f"  - Ensemble weights: {metadata.get('ensemble_weights', {})}")
     
@@ -118,7 +118,7 @@ def evaluate_on_test_set():
         logger.error("No trained model found!")
         return False
     
-    generator = UltraEnhancedJSONGenerator(model_path=model_path)
+    generator = JSONGenerator(model_path=model_path)
     
     # Test files
     test_files = [
@@ -359,23 +359,22 @@ def calculate_text_similarity(text1: str, text2: str) -> float:
     return min(final_score, 1.0)
 
 def main():
-    """Main ultra-enhanced training pipeline"""
+    """Main training pipeline"""
     
     print("="*80)
-    print("ULTRA-ENHANCED PDF STRUCTURE DETECTION - MAXIMUM ACCURACY TRAINING")
-    print("Target: >90% Accuracy with Advanced Ground Truth Comparison")
+    print("PDF STRUCTURE DETECTION - MAXIMUM ACCURACY TRAINING")
     print("="*80)
     
     success = True
     
-    # Step 1: Extract ultra-enhanced features
+    # Step 1: Extract features
     if not extract_enhanced_features():
-        logger.error("❌ Ultra feature extraction failed!")
+        logger.error("❌ feature extraction failed!")
         success = False
     
-    # Step 2: Train ultra-enhanced model
+    # Step 2: Train model
     if success and not train_enhanced_model():
-        logger.error("❌ Ultra model training failed to achieve target accuracy!")
+        logger.error("❌ model training failed to achieve target accuracy!")
         success = False
     
     # Step 3: Evaluate on test set with detailed ground truth comparison
@@ -385,14 +384,14 @@ def main():
     
     print("="*80)
     if success:
-        print("🎉 SUCCESS: Ultra-enhanced high-accuracy model training completed!")
+        print("🎉 SUCCESS: Model training completed!")
         print("✅ Target accuracy achieved with advanced ground truth validation")
         print("📦 Model saved to: models/production/ultra_accuracy_optimized_classifier.pkl")
         print("📊 Detailed evaluation results saved with ground truth comparison")
     else:
         print("❌ CHALLENGES ENCOUNTERED: Working towards target accuracy")
         print("🔧 Improvements made:")
-        print("   ✅ Ultra-enhanced feature extraction with font analysis")
+        print("   ✅ Feature extraction with font analysis")
         print("   ✅ Advanced text similarity matching")
         print("   ✅ Comprehensive ground truth evaluation system")
         print("   ✅ Detailed performance reporting and analysis")

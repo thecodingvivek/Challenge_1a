@@ -1,24 +1,23 @@
 #!/usr/bin/env python3
 """
-Ultra-Enhanced JSON Generator - Standalone Version
-Combines advanced ML and heuristic approaches for maximum accuracy
+JSON Generator:
+    Combines advanced ML and heuristic approaches for maximum accuracy
 """
 
 import os
 import sys
 import json
 import logging
-import fitz  # PyMuPDF
+import fitz
 import pandas as pd
 import numpy as np
-from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any
 import pickle
 from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, GradientBoostingClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import xgboost as xgb
 import lightgbm as lgb
@@ -31,7 +30,7 @@ project_root = os.path.dirname(os.path.dirname(current_file_path))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from src.ultra_enhanced_feature_extractor import UltraEnhancedFeatureExtractor
+from .feature_extractor import FeatureExtractor
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -227,11 +226,11 @@ class AccuracyOptimizedClassifier:
         
         logger.info(f"Model loaded from {filepath}")
 
-class UltraEnhancedJSONGenerator:
-    """Ultra-enhanced JSON generator with unified feature processing"""
+class JSONGenerator:
+    """JSON generator with unified feature processing"""
     
     def __init__(self, model_path: str = "models/production/ultra_accuracy_optimized_classifier.pkl"):
-        self.ultra_feature_extractor = UltraEnhancedFeatureExtractor()
+        self.feature_extractor = FeatureExtractor()
         self.classifier = AccuracyOptimizedClassifier()
         self.model_path = model_path
         
@@ -244,16 +243,16 @@ class UltraEnhancedJSONGenerator:
                 logger.warning(f"Could not load model: {e}")
     
     def process_pdf(self, pdf_path: str) -> Dict[str, Any]:
-        """Process PDF with ultra-enhanced features"""
+        """Process PDF with features"""
         
         try:
-            # Extract blocks using ultra-enhanced extractor
+            # Extract blocks using extractor
             doc = fitz.open(pdf_path)
-            blocks = self.ultra_feature_extractor.extract_text_blocks(doc)
+            blocks = self.feature_extractor.extract_text_blocks(doc)
             doc.close()
             
-            # Compute ultra-enhanced features
-            blocks_with_features = self.ultra_feature_extractor.compute_ultra_features(blocks)
+            # Compute features
+            blocks_with_features = self.feature_extractor.compute_ultra_features(blocks)
             
             # Convert to DataFrame for ML processing
             if self.classifier.trained and self.classifier.models:
@@ -469,7 +468,7 @@ class UltraEnhancedJSONGenerator:
         return False
     
     def _apply_ultra_heuristics(self, blocks: List[Dict]) -> List[str]:
-        """Apply ultra-enhanced heuristic predictions with optimized pattern recognition"""
+        """Apply heuristic predictions with optimized pattern recognition"""
         
         predictions = []
         
@@ -629,22 +628,22 @@ class UltraEnhancedJSONGenerator:
             'academic': {
                 'strong': ['abstract', 'introduction', 'methodology', 'results', 'conclusion', 'references', 'discussion'],
                 'numbered': r'^\d+\.?\s+[A-Z]',
-                'level_threshold': 1.15    # Increased from 1.1
+                'level_threshold': 1.15    
             },
             'technical': {
                 'strong': ['overview', 'installation', 'configuration', 'api', 'examples', 'troubleshooting', 'requirements'],
                 'numbered': r'^\d+\.?\d*\.?\s+[A-Z]',
-                'level_threshold': 1.12    # Increased from 1.08
+                'level_threshold': 1.12   
             },
             'business': {
                 'strong': ['executive summary', 'background', 'objectives', 'recommendations', 'next steps', 'conclusion'],
                 'numbered': r'^\d+\.\s+[A-Z]',
-                'level_threshold': 1.2     # Increased from 1.15
+                'level_threshold': 1.2    
             },
             'form': {
                 'strong': ['personal information', 'contact details', 'education', 'experience', 'declaration'],
                 'numbered': r'^\d+\.\s+',
-                'level_threshold': 1.1     # Increased from 1.05
+                'level_threshold': 1.1   
             }
         }
         
@@ -972,7 +971,7 @@ class UltraEnhancedJSONGenerator:
         return final_headings
     
     def train_model(self, training_csv_path: str) -> float:
-        """Train the ultra-enhanced model"""
+        """Train the model"""
         
         if not os.path.exists(training_csv_path):
             raise FileNotFoundError(f"Training data not found: {training_csv_path}")
@@ -990,29 +989,3 @@ class UltraEnhancedJSONGenerator:
         
         return accuracy
 
-def main():
-    """Test the ultra-enhanced JSON generator"""
-    
-    # Test with a sample PDF
-    model_path = "models/production/ultra_accuracy_optimized_classifier.pkl"
-    generator = UltraEnhancedJSONGenerator(model_path if os.path.exists(model_path) else None)
-    
-    # Look for test PDFs
-    test_pdfs = [
-        "data/raw_pdfs/test/E0CCG5S239.pdf",
-        "data/raw_pdfs/test/STEMPathwaysFlyer.pdf"
-    ]
-    
-    for pdf_path in test_pdfs:
-        if os.path.exists(pdf_path):
-            print(f"Testing ultra-enhanced JSON generation on: {pdf_path}")
-            result = generator.process_pdf(pdf_path)
-            print(f"Title: {result.get('title', 'No title')}")
-            print(f"Headings found: {len(result.get('outline', []))}")
-            for heading in result.get('outline', [])[:3]:
-                print(f"  - H{heading.get('level', '?')}: {heading.get('text', '')[:50]}...")
-            print()
-            break
-
-if __name__ == "__main__":
-    main()

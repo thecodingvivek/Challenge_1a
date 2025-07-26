@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Ultra-Enhanced Feature Extractor for Maximum Accuracy
-Advanced pattern recognition and contextual analysis
+Feature Extractor:
+    Advanced pattern recognition and contextual analysis
 """
 
 import os
@@ -9,15 +9,12 @@ import sys
 import re
 import logging
 import math
-from typing import List, Dict, Any, Optional, Tuple
-from pathlib import Path
+from typing import List, Dict, Any
 import warnings
 warnings.filterwarnings('ignore')
 
-import fitz  # PyMuPDF
+import fitz
 import pandas as pd
-import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Add project root to path
 current_file_path = os.path.abspath(__file__)
@@ -28,8 +25,8 @@ if project_root not in sys.path:
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-class UltraEnhancedFeatureExtractor:
-    """Ultra-enhanced feature extractor with advanced pattern recognition"""
+class FeatureExtractor:
+    """Feature extractor with advanced pattern recognition"""
     
     def __init__(self):
         self.title_patterns = [
@@ -236,7 +233,7 @@ class UltraEnhancedFeatureExtractor:
         return blocks
     
     def compute_ultra_features(self, blocks: List[Dict]) -> List[Dict]:
-        """Compute ultra-enhanced features for maximum accuracy"""
+        """Compute features for maximum accuracy"""
         if not blocks:
             return blocks
         
@@ -482,15 +479,15 @@ class UltraEnhancedFeatureExtractor:
             return pd.DataFrame()
 
 def main():
-    """Test the ultra-enhanced feature extractor"""
-    extractor = UltraEnhancedFeatureExtractor()
+    """Test the feature extractor"""
+    extractor = FeatureExtractor()
     
     # Test on sample file
     test_pdf = "data/raw_pdfs/test/E0CCG5S239.pdf"
     test_label = "data/ground_truth/test/E0CCG5S239.json"
     
     if os.path.exists(test_pdf) and os.path.exists(test_label):
-        print("Testing ultra-enhanced feature extraction...")
+        print("Testing feature extraction...")
         df = extractor.process_pdf_with_labels(test_pdf, test_label)
         
         if not df.empty:

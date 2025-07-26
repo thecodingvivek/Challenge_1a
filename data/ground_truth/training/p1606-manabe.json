@@ -1,0 +1,202 @@
+{
+    "title": "Extracting Logical Hierarchical Structure of HTML Documents Based on Headings",
+    "outline": [
+        {
+            "level": "H1",
+            "text": "ABSTRACT",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "1. INTRODUCTION",
+            "page": 0
+        },{
+            "level": "H1",
+            "text": "2. RELATED WORK",
+            "page": 1
+        },{
+            "level": "H1",
+            "text": "3. LOGICAL DOCUMENT STRUCTURE",
+            "page": 2
+        },{
+            "level": "H2",
+            "text": "3.1 Definitions of Blocks and Headings",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "DEFINITION 1. Blocks:",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "DEFINITION 2. Headings:",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "OBSERVATION 1. ",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "OBSERVATION 2. ",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "3.2 Properties of Headings",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "ASSUMPTION 1. Positions of Headings:",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "ASSUMPTION 2. Visual Styles of Headings:",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "ASSUMPTION 3. Visual Styles of Heading Lists:",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "ASSUMPTION 4. Visual Styles of Hierarchial Headings:",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "3.3 Correspondence between Logical Struc-ture and Mark-up Structure",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "3.3.1 Headings and Nodes",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "3.3.2 Blocks and Node Sequences",
+            "page": 4
+        },{
+            "level": "H3",
+            "text": "3.3.3 Nested Blocks and Block Lists",
+            "page": 4
+        },{
+            "level": "H1",
+            "text": "4. STRUCTURE EXTRACTION METHOD",
+            "page": 4
+        },{
+            "level": "H2",
+            "text": "4.1 Preprocessing",
+            "page": 4
+        },{
+            "level": "H2",
+            "text": "4.2 Classification of Nodes by Visual Styles",
+            "page": 4
+        },{
+            "level": "H3",
+            "text": "Tag path:",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Computed style:",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Height of images:",
+            "page": 5
+        },{
+            "level": "H2",
+            "text": "4.3 Sorting Candidate-Heading Lists",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "4.3.1 Sorting by Block Depth",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "4.3.2 Sorting by Visual Style",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "4.3.3 Sorting by Document Order",
+            "page": 6
+        },{
+            "level": "H1",
+            "text": "4.4 Recursive Document ",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "4.4.1 Segmentation Based on Headings",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "4.4.2 Determining Heading Lists",
+            "page": 6
+        },{
+            "level": "H1",
+            "text": "5. EVALUATION",
+            "page": 7
+        },{
+            "level": "H2",
+            "text": "5.1 Document Collection",
+            "page": 7
+        },{
+            "level": "H2",
+            "text": "5.2 Ground Truth and its Representation",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Annotation process:",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Exceptions:",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Data set statistics:",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Data representation",
+            "page": 8
+        },{
+            "level": "H2",
+            "text": "5.3 Evaluation Measures",
+            "page": 8
+        },{
+            "level": "H2",
+            "text": "5.4 Experimental Results",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "5.4.1 Inter-annotator agreement",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "5.4.2 Over-Fitting to Training Data",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "5.4.3 Influence of Annotators",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "5.4.4 Comparison with Existing Methods",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "5.4.5 Effects of Design Decisions and Assumptions",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "5.4.6 Accuracy of Hierarchical Structure Extraction",
+            "page": 10
+        },{
+            "level": "H1",
+            "text": "6. CONCLUSION AND FUTURE WORK",
+            "page": 10
+        },{
+            "level": "H1",
+            "text": "Acknowledgment",
+            "page": 11
+        },{
+            "level": "H1",
+            "text": "7. REFERENCES",
+            "page": 11
+        }
+    ]
+}

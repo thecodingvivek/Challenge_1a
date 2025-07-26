@@ -9,3 +9,5 @@ output
 processed
 .vscode
 .venv
+models
+input

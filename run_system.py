@@ -83,8 +83,10 @@ def main():
                 
                 # Convert outline to required format
                 for heading in result.get('outline', []):
+                    # Convert numeric level to H1, H2, H3 format
+                    level_num = heading.get('level', 1)
                     formatted_heading = {
-                        "level": heading.get('level', 1),
+                        "level": f"H{level_num}",
                         "text": heading.get('text', ''),
                         "page": heading.get('page', 1)
                     }

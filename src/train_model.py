@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Enhanced Training Script for High-Accuracy PDF Structure Detection
+Training Script for PDF Structure Detection
 Achieves >90% accuracy through advanced feature engineering and ML techniques
 """
 
@@ -369,12 +369,12 @@ def main():
     
     # Step 1: Extract features
     if not extract_enhanced_features():
-        logger.error("❌ feature extraction failed!")
+        logger.error("❌ Feature extraction failed!")
         success = False
     
     # Step 2: Train model
     if success and not train_enhanced_model():
-        logger.error("❌ model training failed to achieve target accuracy!")
+        logger.error("❌ Model training failed to achieve target accuracy!")
         success = False
     
     # Step 3: Evaluate on test set with detailed ground truth comparison

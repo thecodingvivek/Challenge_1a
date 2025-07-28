@@ -26,9 +26,9 @@ Our system leverages a powerful **hybrid engine**, combining a sophisticated Mac
 
 Our solution follows a multi-stage pipeline, designed for maximum accuracy and efficiency.
 
-\<p align="center"\>
-\<img src="architecture.png" alt="System Architecture Diagram" width="800"\>
-\</p\>
+<p align="center">
+  <img src="architecture.png" alt="System Architecture Diagram" width="800">
+</p>
 
 1.  **Text Block Extraction (PyMuPDF)**: We start by extracting rich, detailed information from the PDF using `PyMuPDF (fitz)`. Instead of just text, we capture metadata for each text block, including font type, size, weight (bold), flags, and precise coordinates (bbox).
 
@@ -102,17 +102,6 @@ dot/
 ├── requirements.txt       # Lists all Python dependencies
 └── run_system.py          # Main executable script for the system
 ```
-
------
-
-## 📊 Performance & Results
-
-Our solution is optimized to adhere to all hackathon constraints.
-
-  * **Execution Time**: **\~[XX] seconds** for a 50-page document (well within the $\\le10$ second limit).
-  * **Model Size**: The serialized model is **\~[XX] MB** (well under the $\\le200$ MB limit).
-  * **Runtime**: Runs entirely on **CPU** with no GPU dependencies and is compatible with `linux/amd64` architecture.
-  * **Accuracy**: Our detailed evaluation script (`src/train_model.py`) measures accuracy using **Precision, Recall, and F1-Score** against the ground truth. Our current score on the provided test set is **[Your Accuracy Score]%**.
 
 -----
 

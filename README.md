@@ -17,13 +17,13 @@
 > **ACHIEVED: 62% Accuracy + 59 pages/second processing speed**  
 > _Exceeding both accuracy and performance benchmarks for production-ready deployment_
 
-🚀 **Performance Excellence**: Processes 50-page documents in **0.85 seconds** (8.5x under 10s constraint)  
-🎯 **Accuracy Leadership**: **62% ground truth accuracy** with intelligent hybrid AI approach  
-🔧 **Production Ready**: Fully containerized, offline-capable, zero external dependencies  
-⚡ **Scalable Architecture**: Handles diverse document types from academic papers to business forms  
-📝 **Dataset Pioneer**: Self-created training dataset from ~50 annotated PDFs (Adobe provided only 5 samples)
+- **Performance Excellence**: Processes 50-page documents in **0.85 seconds** (8.5x under 10s constraint)  
+- **Accuracy Leadership**: **62% ground truth accuracy** with intelligent hybrid AI approach  
+- **Production Ready**: Fully containerized, offline-capable, zero external dependencies  
+- **Scalable Architecture**: Handles diverse document types from academic papers to business forms  
+- **Dataset Pioneer**: Self-created training dataset from ~50 annotated PDFs (Adobe provided only 5 samples)
 
-> **💡 Accuracy Context**: Our 62% accuracy is validated against a comprehensive, self-built dataset of ~50 diverse documents with manual JSON annotations. Adobe's hackathon provided only 5 PDF samples with ground truth - insufficient for meaningful ML development. We solved this limitation by creating our own extensive evaluation dataset.
+> **Accuracy Context**: Our 62% accuracy is validated against a comprehensive, self-built dataset of ~50 diverse documents with manual JSON annotations. Adobe's hackathon provided only 5 PDF samples with ground truth - insufficient for meaningful ML development. We solved this limitation by creating our own extensive evaluation dataset.
 
 ---
 
@@ -349,7 +349,7 @@ python run_system.py --mode process
 **Challenge Focus**: Document Structure Understanding & Automation  
 **Repository**: [github.com/thecodingvivek/dot](https://github.com/thecodingvivek/dot)
 
-**Key Contributors**: Advanced ML Engineering, Performance Optimization, Production Deployment
+**Key Contributors**: [@Vivek Chitturi](https://github.com/thecodingvivek), [@Mounik Sai](https://github.com/mouniksai), [@Aashiq Edavalapati](https://github.com/Aashiq-Edavalapati)
 
 ---
 

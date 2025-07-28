@@ -9,13 +9,13 @@
     "SVM"
   ],
   "ensemble_weights": {
-    "RandomForest": 0.14387254901960786,
-    "XGBoost": 0.14362745098039217,
-    "Neural Network": 0.1392156862745098,
-    "Extra Trees": 0.14362745098039217,
-    "Gradient Boosting": 0.1428921568627451,
-    "LightGBM": 0.1450980392156863,
-    "SVM": 0.14166666666666666
+    "RandomForest": 0.14277715565509516,
+    "XGBoost": 0.1444568868980963,
+    "Neural Network": 0.14053751399776035,
+    "Extra Trees": 0.1422172452407615,
+    "Gradient Boosting": 0.1461366181410974,
+    "LightGBM": 0.1453900709219858,
+    "SVM": 0.1384845091452034
   },
   "feature_count": 40,
   "training_samples": "unknown"

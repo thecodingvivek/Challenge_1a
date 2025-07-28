@@ -1,0 +1,370 @@
+{
+    "title": "Data Analyst Roadmap for Beginners 2024",
+    "outline": [
+        {
+            "level": "H1",
+            "text": "Week 0: Do Proper Research and protect yourself from SCAMS",
+            "page": 1
+        },{
+            "level": "H1",
+            "text": "Week 1 and 2: Excel and Business Math/Statistics + LinkedIn Profile",
+            "page": 1
+        },{
+            "level": "H2",
+            "text": "Excel",
+            "page": 1
+        },{
+            "level": "H3",
+            "text": "Topics",
+            "page": 1
+        },{
+            "level": "H3",
+            "text": "Learning Resources",
+            "page": 1
+        },{
+            "level": "H2",
+            "text": "Business Math and Statistics",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "Topics",
+            "page": 2
+        },{
+            "level": "H3",
+            "text": "Learning Resources",
+            "page": 2
+        },{
+            "level": "H2",
+            "text": "LinkedIn - Core Skill",
+            "page": 2
+        },{
+            "level": "H2",
+            "text": "Motivation",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "Assignment",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "Upskilling",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "Showing your work",
+            "page": 3
+        },{
+            "level": "H1",
+            "text": "Week 3, 4, 5: BI tools (Power BI or Tableau) + LinkedIn Engagement + Business Fundamentals",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "Power BI",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "Topics",
+            "page": 3
+        },{
+            "level": "H3",
+            "text": "Learning Resources",
+            "page": 3
+        },{
+            "level": "H2",
+            "text": "Track B",
+            "page": 4
+        },{
+            "level": "H2",
+            "text": "Tableau",
+            "page": 4
+        },{
+            "level": "H2",
+            "text": "Should I learn Power BI or Tableau?",
+            "page": 4
+        },{
+            "level": "H2",
+            "text": "LinkedIn - Core Skill",
+            "page": 4
+        },{
+            "level": "H3",
+            "text": "Start following prominent data analytics influencers!",
+            "page": 4
+        },{
+            "level": "H3",
+            "text": "Increase engagement!",
+            "page": 4
+        },{
+            "level": "H2",
+            "text": "Business Fundamentals - Core Skill",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Learn business concepts from ThikSchool and other YT Case Studies",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Learn P&L fundamentals",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Discord - Core Skill",
+            "page": 5
+        },{
+            "level": "H2",
+            "text": "Motivation",
+            "page": 5
+        },{
+            "level": "H2",
+            "text": "Assignment",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Upskilling",
+            "page": 5
+        },{
+            "level": "H3",
+            "text": "Show your work",
+            "page": 5
+        },{
+            "level": "H1",
+            "text": "Week 6,7 and 8: SQL + ATS Resume + Project Portfolio",
+            "page": 6
+        },{
+            "level": "H2",
+            "text": "SQL",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Topics",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Learning Resources",
+            "page": 6
+        },{
+            "level": "H2",
+            "text": "Presentation - Core Skills",
+            "page": 6
+        },{
+            "level": "H3",
+            "text": "Learn presentation skills",
+            "page": 6
+        },{
+            "level": "H2",
+            "text": "ATS Resume Preparation",
+            "page": 6
+        },{
+            "level": "H2",
+            "text": "Portfolio Building Resources:",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Novypro",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Linktree",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "GitHub",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Codebasics Portfolio Website",
+            "page": 7
+        },{
+            "level": "H2",
+            "text": "Assignment",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Upskilling",
+            "page": 7
+        },{
+            "level": "H3",
+            "text": "Showing your work",
+            "page": 7
+        },{
+            "level": "H1",
+            "text": "Week 9 & 10: Python and Pandas + Leveragin AI Tools + More Domain Knowledge",
+            "page": 8
+        },{
+            "level": "H2",
+            "text": "Python",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Topics",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Learning Resources",
+            "page": 8
+        },{
+            "level": "H2",
+            "text": "Pandas",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Topics",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Reources",
+            "page": 8
+        },{
+            "level": "H2",
+            "text": "Project Management",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Scrum:",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Kanban:",
+            "page": 8
+        },{
+            "level": "H3",
+            "text": "Tools:",
+            "page": 8
+        },{
+            "level": "H2",
+            "text": "Leveraging ChatGPT",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "4 Technical Areas where you can leverage AI:",
+            "page": 9
+        },{
+            "level": "H2",
+            "text": "Leveraging Domain Knowledge",
+            "page": 9
+        },{
+            "level": "H2",
+            "text": "All Links:",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "1. BSNL Story",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "2. Amul's pandemic strategy",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "3. P & G data culture",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "4. Bad loans at Banks",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "5. Burger King's Strategy",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "AB InBev Automation",
+            "page": 9
+        },{
+            "level": "H3",
+            "text": "7. Data Career in Insurance Industry",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "8. Ikea Case Study",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "9. PwC using Analytics",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "10. Data science at health care",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "11.Dashboard in local business",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "12. Walmart Using Power BI",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "13. Data Literacy at Starbucks",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "14. Efficiency Scoring in Business",
+            "page": 10
+        },{
+            "level": "H3",
+            "text": "15. Hospitality Insights",
+            "page": 10
+        },{
+            "level": "H2",
+            "text": "Assignment",
+            "page": 10
+        },{
+            "level": "H1",
+            "text": "Week 11, 12: Interview Prep & Practice",
+            "page": 11
+        },{
+            "level": "H2",
+            "text": "Interview Preparation",
+            "page": 11
+        },{
+            "level": "H3",
+            "text": "SQL interview preparation",
+            "page": 11
+        },{
+            "level": "H2",
+            "text": "Practice Unguided Projects",
+            "page": 11
+        },{
+            "level": "H2",
+            "text": "Job Applications",
+            "page": 11
+        },{
+            "level": "H2",
+            "text": "Assignment",
+            "page": 11
+        },{
+            "level": "H1",
+            "text": "How can I get guided learning all at one place with practical job assistance?",
+            "page": 12
+        },{
+            "level": "H1",
+            "text": "Tips of effective learning",
+            "page": 12
+        },{
+            "level": "H2",
+            "text": "Spend less time in consuming information, more time in",
+            "page": 12
+        },{
+            "level": "H3",
+            "text": "Digesting",
+            "page": 12
+        },{
+            "level": "H3",
+            "text": "Implemeting",
+            "page": 12
+        },{
+            "level": "H3",
+            "text": "Sharing",
+            "page": 12
+        },{
+            "level": "H2",
+            "text": "Group learning",
+            "page": 12
+        },{
+            "level": "H1",
+            "text": "Other Relevant Resource",
+            "page": 13
+        }
+    ]
+}
